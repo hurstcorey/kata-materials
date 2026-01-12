@@ -1,0 +1,39 @@
+# IDE/Editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# Node.js (if applicable)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python (if applicable)
+__pycache__/
+*.py[cod]
+.venv/
+env/
+venv/
+
+# Java/Maven/Gradle (if applicable)
+target/
+build/
+bin/
+.gradle/
+
+# .NET (if applicable)
+[Bb]in/
+[Oo]bj/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+coverage/
