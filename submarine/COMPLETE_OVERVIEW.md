@@ -44,7 +44,7 @@
 ## Complete Documentation
 
 ### 📖 Quick Start
-**[README.md](./README.md)** - 200+ lines
+**[README.md](README.md)** - 200+ lines
 - Installation instructions
 - Quick start guide
 - Overview of all 13 patterns
@@ -52,7 +52,7 @@
 - Best practices
 
 ### 📖 Deep Dive - Original Patterns
-**[SOLUTIONS_ANALYSIS.md](./SOLUTIONS_ANALYSIS.md)** - 600+ lines
+**[SOLUTIONS_ANALYSIS.md](SOLUTIONS_ANALYSIS.md)** - 600+ lines
 - Complete analysis of first 6 patterns
 - Design decisions explained
 - Pros and cons for each
@@ -61,7 +61,7 @@
 - Real-world recommendations
 
 ### 📖 Complete Pattern Guide
-**[PATTERNS_GUIDE.md](./PATTERNS_GUIDE.md)** - 1,000+ lines (30+ pages)
+**[PATTERNS_GUIDE.md](PATTERNS_GUIDE.md)** - 1,000+ lines (30+ pages)
 - All 13 patterns explained in detail
 - Code examples for each
 - Comprehensive pros and cons
@@ -73,7 +73,7 @@
 - Best practices
 
 ### 📖 Quick Reference
-**[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - 500+ lines
+**[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - 500+ lines
 - Quick comparison table
 - Pattern selection flowchart
 - Real-world application map
@@ -85,7 +85,7 @@
 - Interview cheat sheet
 
 ### 📖 Complete Summary
-**[SUMMARY.md](./SUMMARY.md)** - 1,000+ lines
+**[SUMMARY.md](SUMMARY.md)** - 1,000+ lines
 - What the kata teaches
 - Tech stack choices explained
 - Solution approaches
@@ -192,31 +192,31 @@ kata-materials/
 ## Learning Path
 
 ### 1. Start Here (30 minutes)
-- Read [README.md](./README.md)
+- Read [README.md](README.md)
 - Run `npm install && npm test`
 - Run `npm run dev` to see all solutions
 
 ### 2. Core Understanding (1 hour)
-- Read [submarine.ts](./src/submarine.ts)
-- Read [submarine.test.ts](./src/submarine.test.ts)
+- Read [submarine.ts](src/submarine.ts)
+- Read [submarine.test.ts](src/submarine.test.ts)
 - Understand OOP and Functional approaches
 
 ### 3. Alternative Patterns (1 hour)
-- Read [alternative-solutions.ts](./src/alternative-solutions.ts)
+- Read [alternative-solutions.ts](submarine/src/alternative-solutions.ts)
 - Compare Strategy, Command, Pure Functional, Pipeline
 
 ### 4. Advanced Patterns (2 hours)
-- Read [advanced-patterns.ts](./src/advanced-patterns.ts)
-- Read [advanced-patterns.test.ts](./src/advanced-patterns.test.ts)
+- Read [advanced-patterns.ts](submarine/src/advanced-patterns.ts)
+- Read [advanced-patterns.test.ts](submarine/src/advanced-patterns.test.ts)
 - Try modifying patterns
 
 ### 5. Deep Dive (3 hours)
-- Read [PATTERNS_GUIDE.md](./PATTERNS_GUIDE.md) completely
-- Read [SOLUTIONS_ANALYSIS.md](./SOLUTIONS_ANALYSIS.md)
-- Read [SUMMARY.md](./SUMMARY.md)
+- Read [PATTERNS_GUIDE.md](PATTERNS_GUIDE.md) completely
+- Read [SOLUTIONS_ANALYSIS.md](SOLUTIONS_ANALYSIS.md)
+- Read [SUMMARY.md](SUMMARY.md)
 
 ### 6. Reference (As Needed)
-- Use [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) for quick lookups
+- Use [QUICK_REFERENCE.md](QUICK_REFERENCE.md) for quick lookups
 - Use decision trees and comparison tables
 
 **Total Learning Time:** ~7-8 hours for complete mastery
@@ -439,11 +439,11 @@ npm run build
 
 ## Documentation Quick Links
 
-- 📘 [README.md](./README.md) - Start here
-- 📗 [PATTERNS_GUIDE.md](./PATTERNS_GUIDE.md) - Complete pattern guide (30+ pages)
-- 📙 [SOLUTIONS_ANALYSIS.md](./SOLUTIONS_ANALYSIS.md) - Original patterns deep dive
-- 📕 [SUMMARY.md](./SUMMARY.md) - Complete summary
-- 📓 [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) - Quick lookup guide
-- 📔 [COMPLETE_OVERVIEW.md](./COMPLETE_OVERVIEW.md) - This file
+- 📘 [README.md](README.md) - Start here
+- 📗 [PATTERNS_GUIDE.md](PATTERNS_GUIDE.md) - Complete pattern guide (30+ pages)
+- 📙 [SOLUTIONS_ANALYSIS.md](SOLUTIONS_ANALYSIS.md) - Original patterns deep dive
+- 📕 [SUMMARY.md](SUMMARY.md) - Complete summary
+- 📓 [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - Quick lookup guide
+- 📔 [COMPLETE_OVERVIEW.md](COMPLETE_OVERVIEW.md) - This file
 
 **Total Documentation:** ~100 pages of comprehensive guides, comparisons, and examples!

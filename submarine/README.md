@@ -91,7 +91,7 @@ This kata demonstrates **13 different design patterns**, each with pros/cons and
 12. **Factory Pattern** - Object creation abstraction
 13. **Memento Pattern** - State snapshots and history
 
-**📖 See [PATTERNS_GUIDE.md](./PATTERNS_GUIDE.md) for complete comparison with when to use each pattern!**
+**📖 See [PATTERNS_GUIDE.md](PATTERNS_GUIDE.md) for complete comparison with when to use each pattern!**
 
 ## Solution Approaches
 

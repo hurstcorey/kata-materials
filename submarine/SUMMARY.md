@@ -515,11 +515,11 @@ All approaches are fast enough (<2ms). Optimize only if measured as slow.
 
 ## Resources
 
-- [README.md](./README.md) - Quick start guide
-- [SOLUTIONS_ANALYSIS.md](./SOLUTIONS_ANALYSIS.md) - Deep dive into each approach
-- [src/submarine.ts](./src/submarine.ts) - Primary implementations
-- [src/alternative-solutions.ts](./src/alternative-solutions.ts) - Additional patterns
-- [src/submarine.test.ts](./src/submarine.test.ts) - Complete test suite
+- [README.md](README.md) - Quick start guide
+- [SOLUTIONS_ANALYSIS.md](SOLUTIONS_ANALYSIS.md) - Deep dive into each approach
+- [src/submarine.ts](src/submarine.ts) - Primary implementations
+- [src/alternative-solutions.ts](submarine/src/alternative-solutions.ts) - Additional patterns
+- [src/submarine.test.ts](src/submarine.test.ts) - Complete test suite
 
 ## Conclusion
 

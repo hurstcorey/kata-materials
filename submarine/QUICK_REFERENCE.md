@@ -293,10 +293,10 @@ if (needsUndo) {
 
 ## Files to Read Next
 
-1. **Start:** [README.md](./README.md) - Quick start guide
-2. **Learn:** [PATTERNS_GUIDE.md](./PATTERNS_GUIDE.md) - Complete pattern guide (30+ pages)
-3. **Deep Dive:** [SOLUTIONS_ANALYSIS.md](./SOLUTIONS_ANALYSIS.md) - Original 6 patterns analyzed
-4. **Summary:** [SUMMARY.md](./SUMMARY.md) - Complete overview
+1. **Start:** [README.md](README.md) - Quick start guide
+2. **Learn:** [PATTERNS_GUIDE.md](PATTERNS_GUIDE.md) - Complete pattern guide (30+ pages)
+3. **Deep Dive:** [SOLUTIONS_ANALYSIS.md](SOLUTIONS_ANALYSIS.md) - Original 6 patterns analyzed
+4. **Summary:** [SUMMARY.md](SUMMARY.md) - Complete overview
 
 ---
 
