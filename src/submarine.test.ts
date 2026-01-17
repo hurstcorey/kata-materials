@@ -1,4 +1,4 @@
-import { SubmarinePart1, SubmarinePart2, parseCommand, calculateFinalPosition } from './submarine';
+import { SubmarinePart1, SubmarinePart2, parseCommand } from './submarine';
 
 describe('Submarine Navigation - Part 1', () => {
   describe('parseCommand', () => {
@@ -80,22 +80,6 @@ describe('Submarine Navigation - Part 1', () => {
       expect(sub.getPosition()).toEqual({ horizontal: 7, depth: 0 });
     });
   });
-
-  describe('calculateFinalPosition (functional approach)', () => {
-    it('should calculate final position for example', () => {
-      const commands = [
-        'forward 5',
-        'down 5',
-        'forward 8',
-        'up 3',
-        'down 8',
-        'forward 2'
-      ];
-
-      const result = calculateFinalPosition(commands, 1);
-      expect(result).toEqual({ horizontal: 15, depth: 10, product: 150 });
-    });
-  });
 });
 
 describe('Submarine Navigation - Part 2', () => {
@@ -146,22 +130,6 @@ describe('Submarine Navigation - Part 2', () => {
 
       expect(sub.getPosition()).toEqual({ horizontal: 15, depth: 60, aim: 10 });
       expect(sub.getResult()).toBe(900);
-    });
-  });
-
-  describe('calculateFinalPosition (functional approach)', () => {
-    it('should calculate final position for example', () => {
-      const commands = [
-        'forward 5',
-        'down 5',
-        'forward 8',
-        'up 3',
-        'down 8',
-        'forward 2'
-      ];
-
-      const result = calculateFinalPosition(commands, 2);
-      expect(result).toEqual({ horizontal: 15, depth: 60, product: 900, aim: 10 });
     });
   });
 });

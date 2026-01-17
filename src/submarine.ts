@@ -9,6 +9,9 @@
  * - Type Safety (TypeScript interfaces and types)
  */
 
+import { readFileSync } from 'fs';
+// import { join } from 'path';
+
 export type Direction = 'forward' | 'down' | 'up';
 
 export interface Command {
@@ -23,6 +26,12 @@ export interface Position {
 
 export interface PositionWithAim extends Position {
   aim: number;
+}
+
+export interface ScannerMap {
+  horizontal: number;
+  depth: number;
+  points:string[];
 }
 
 /**
@@ -52,6 +61,19 @@ export function parseCommand(commandStr: string): Command {
   }
 
   return { direction: direction as Direction, value };
+}
+
+export function checkScanner(postition:PositionWithAim): ScannerMap{
+  // const inputPath = join(__dirname, '..', 'scanner-data.json');
+  const content = readFileSync('./src/scanner-data.json', 'utf-8');
+  const scannerData = JSON.parse(content);
+
+  const horiztonal = postition.horizontal
+  const depth = postition.depth
+  console.log(scannerData[`(${horiztonal},${depth})`])
+  
+
+  return scannerData
 }
 
 /**
@@ -91,6 +113,8 @@ export class SubmarinePart1 {
         this.depth -= command.value;
         break;
     }
+
+
   }
 
   /**
@@ -131,6 +155,8 @@ export class SubmarinePart2 {
         // Compound action: move horizontally AND adjust depth based on aim
         this.horizontal += command.value;
         this.depth += this.aim * command.value;
+
+        checkScanner(this.getPosition())
         break;
       case 'down':
         // Now affects aim, not depth
@@ -149,66 +175,4 @@ export class SubmarinePart2 {
   getResult(): number {
     return this.horizontal * this.depth;
   }
-}
-
-/**
- * Functional approach using reduce
- *
- * Why Functional:
- * - Immutable state transformation
- * - No side effects
- * - Easy to test and reason about
- * - Can process entire command list at once
- * - Composable and reusable
- *
- * Pros:
- * - More declarative
- * - Easier to parallelize (if needed)
- * - No mutable state bugs
- *
- * Cons:
- * - Less intuitive for beginners
- * - Creates new objects on each iteration (memory overhead)
- * - Harder to debug step-by-step
- */
-export function calculateFinalPosition(
-  commands: string[],
-  part: 1 | 2
-): Position & { product: number; aim?: number } {
-  const initialState = { horizontal: 0, depth: 0, aim: 0 };
-
-  const finalState = commands.reduce((state, commandStr) => {
-    const command = parseCommand(commandStr);
-
-    if (part === 1) {
-      switch (command.direction) {
-        case 'forward':
-          return { ...state, horizontal: state.horizontal + command.value };
-        case 'down':
-          return { ...state, depth: state.depth + command.value };
-        case 'up':
-          return { ...state, depth: state.depth - command.value };
-      }
-    } else {
-      switch (command.direction) {
-        case 'forward':
-          return {
-            ...state,
-            horizontal: state.horizontal + command.value,
-            depth: state.depth + state.aim * command.value
-          };
-        case 'down':
-          return { ...state, aim: state.aim + command.value };
-        case 'up':
-          return { ...state, aim: state.aim - command.value };
-      }
-    }
-  }, initialState);
-
-  return {
-    horizontal: finalState.horizontal,
-    depth: finalState.depth,
-    product: finalState.horizontal * finalState.depth,
-    ...(part === 2 && { aim: finalState.aim })
-  };
 }
