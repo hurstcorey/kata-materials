@@ -9,9 +9,6 @@
  * - Type Safety (TypeScript interfaces and types)
  */
 
-import { readFileSync } from 'fs';
-// import { join } from 'path';
-
 export type Direction = 'forward' | 'down' | 'up';
 
 export interface Command {
@@ -32,6 +29,21 @@ export interface ScannerMap {
   horizontal: number;
   depth: number;
   points:string[];
+}
+
+export interface  visitedPositions {
+  visitedPositions:Array<{horizontal:number;depth:number;}>;
+}
+
+export interface ScanData {
+  position: { horizontal: number; depth: number };
+  scanResult: string[];
+}
+
+export interface MapPoint {
+  horizontal: number;
+  depth: number;
+  character: string;
 }
 
 /**
@@ -63,17 +75,15 @@ export function parseCommand(commandStr: string): Command {
   return { direction: direction as Direction, value };
 }
 
-export function checkScanner(postition:PositionWithAim): ScannerMap{
-  // const inputPath = join(__dirname, '..', 'scanner-data.json');
-  const content = readFileSync('./src/scanner-data.json', 'utf-8');
-  const scannerData = JSON.parse(content);
-
-  const horiztonal = postition.horizontal
-  const depth = postition.depth
-  console.log(scannerData[`(${horiztonal},${depth})`])
+export function checkScanner(position: PositionWithAim): string[] | null {
+  const scannerData = require('./scanner-data.json');
+  const key = `(${position.horizontal},${position.depth})`;
   
-
-  return scannerData
+  if (key in scannerData) {
+    return scannerData[key];
+  }
+  
+  return null;
 }
 
 /**
@@ -155,8 +165,6 @@ export class SubmarinePart2 {
         // Compound action: move horizontally AND adjust depth based on aim
         this.horizontal += command.value;
         this.depth += this.aim * command.value;
-
-        checkScanner(this.getPosition())
         break;
       case 'down':
         // Now affects aim, not depth
@@ -174,5 +182,188 @@ export class SubmarinePart2 {
 
   getResult(): number {
     return this.horizontal * this.depth;
+  }
+}
+
+/**
+ * Part 2: Submarine with aim mechanism
+ *
+ * Design Pattern: Extension with new behavior
+ * - Extends Part2 for further modification
+ */
+export class SubmarinePart3 extends SubmarinePart2 {
+  
+  private visitedPositions: visitedPositions = {visitedPositions: []};
+  private scannedData: ScanData[] = [];
+  private mapPoints: Map<string, string> = new Map();
+
+  constructor() {
+    super();
+    // Record starting position
+    this.visitedPositions.visitedPositions.push({horizontal: 0, depth: 0});
+    // Initial scan at starting position
+    this.collectScanData({horizontal: 0, depth: 0, aim: 0});
+  }
+
+  executeCommand(commandStr: string): void {
+    super.executeCommand(commandStr);
+    
+    // After each command execution, record the new position
+    const pos = this.getPosition();
+    this.visitedPositions.visitedPositions.push({ 
+      horizontal: pos.horizontal, 
+      depth: pos.depth 
+    });
+
+    // After each command execution, collect scanner data at this position
+    this.collectScanData(pos);
+
+    // translate scan data to map points
+    this.translateScanToMap(this.scannedData[this.scannedData.length - 1]);
+
+  }
+  
+  private collectScanData(position: PositionWithAim): void {
+    const scanResult = checkScanner({ horizontal: position.horizontal, depth: position.depth, aim: position.aim });
+    
+    if (scanResult !== null) {
+      const scanData: ScanData = {
+        position: { horizontal: position.horizontal, depth: position.depth },
+        scanResult: scanResult
+      };
+      
+      this.scannedData.push(scanData);
+    }
+
+  }
+
+  private translateScanToMap(scanData: ScanData): void {
+    const { position, scanResult } = scanData;
+  
+    // The scan is a 3x3 grid centered on the position
+    // scanResult[0-8] maps to:
+    // [0,1,2]  top row    (y-1)
+    // [3,4,5]  middle row (y)
+    // [6,7,8]  bottom row (y+1)
+    //
+    // For each row:
+    // column 0: x-1, column 1: x, column 2: x+1
+    const offsets = [
+      [-1, -1], [0, -1], [1, -1],  // Top row
+      [-1,  0], [0,  0], [1,  0],  // Middle row
+      [-1,  1], [0,  1], [1,  1]   // Bottom row
+    ];
+    
+    scanResult.forEach((char, index) => {
+      const [xOffset, yOffset] = offsets[index];
+      const absoluteX = position.horizontal + xOffset;
+      const absoluteY = position.depth + yOffset;
+      const key = `(${absoluteX},${absoluteY})`;
+      
+      this.mapPoints.set(key, char);
+    });
+  }
+
+    getScannedData(): ScanData[] {
+    return this.scannedData;
+  }
+
+  getMapPoints(): Map<string, string> {
+    return this.mapPoints;
+  }
+
+  getVisitedPositions(): Array<{horizontal: number, depth: number}> {
+    return [...this.visitedPositions.visitedPositions]; // Return a copy
+  }
+
+  /**
+   * Builds the complete map from all collected scanner data
+   * @returns 2D array representing the map
+   */
+  buildMap(): string[][] {
+    if (this.mapPoints.size === 0) {
+      return [];
+    }
+
+    // Find the boundaries of the map
+    const coordinates = Array.from(this.mapPoints.keys()).map(key => {
+      const match = key.match(/\((-?\d+),(-?\d+)\)/);
+      if (!match) return { x: 0, y: 0 };
+      return { x: parseInt(match[1]), y: parseInt(match[2]) };
+    });
+
+    const minX = Math.min(...coordinates.map(c => c.x));
+    const maxX = Math.max(...coordinates.map(c => c.x));
+    const minY = Math.min(...coordinates.map(c => c.y));
+    const maxY = Math.max(...coordinates.map(c => c.y));
+
+    const width = maxX - minX + 1;
+    const height = maxY - minY + 1;
+
+    // Initialize map with spaces
+    const map: string[][] = Array.from({ length: height }, () =>
+      Array.from({ length: width }, () => ' ')
+    );
+
+    // Fill in the map with collected points
+    this.mapPoints.forEach((char, key) => {
+      const match = key.match(/\((-?\d+),(-?\d+)\)/);
+      if (match) {
+        const x = parseInt(match[1]);
+        const y = parseInt(match[2]);
+        const mapX = x - minX;
+        const mapY = y - minY;
+        map[mapY][mapX] = char;
+      }
+    });
+
+    return map;
+  }
+
+  /**
+   * Prints the map to console
+   */
+  printMap(): void {
+    const map = this.buildMap();
+    
+    if (map.length === 0) {
+      console.log('No map data available');
+      return;
+    }
+
+    console.log('\n=== SCANNED MAP ===');
+    map.forEach(row => {
+      console.log(row.join(''));
+    });
+    console.log('===================\n');
+  }
+
+  /**
+   * Gets map dimensions
+   */
+  getMapDimensions(): { width: number; height: number; minX: number; maxX: number; minY: number; maxY: number } {
+    if (this.mapPoints.size === 0) {
+      return { width: 0, height: 0, minX: 0, maxX: 0, minY: 0, maxY: 0 };
+    }
+
+    const coordinates = Array.from(this.mapPoints.keys()).map(key => {
+      const match = key.match(/\((-?\d+),(-?\d+)\)/);
+      if (!match) return { x: 0, y: 0 };
+      return { x: parseInt(match[1]), y: parseInt(match[2]) };
+    });
+
+    const minX = Math.min(...coordinates.map(c => c.x));
+    const maxX = Math.max(...coordinates.map(c => c.x));
+    const minY = Math.min(...coordinates.map(c => c.y));
+    const maxY = Math.max(...coordinates.map(c => c.y));
+
+    return {
+      width: maxX - minX + 1,
+      height: maxY - minY + 1,
+      minX,
+      maxX,
+      minY,
+      maxY
+    };
   }
 }

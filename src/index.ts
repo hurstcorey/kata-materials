@@ -9,6 +9,7 @@ import { join } from 'path';
 import {
   SubmarinePart1,
   SubmarinePart2,
+  SubmarinePart3,
 } from './submarine';
 
 function loadCommands(): string[] {
@@ -62,6 +63,29 @@ function main() {
   console.log(`   Result: ${result2.result}\n`);
 
   console.log('='.repeat(60));
+
+  // Part 3: Map Building
+  console.log('--- PART 3: Map Building ---\n');
+
+  measurePerformance(() => {
+    const sub = new SubmarinePart3();
+    commands.forEach(cmd => sub.executeCommand(cmd));
+
+    const dimensions = sub.getMapDimensions();
+    const visitedCount = sub.getVisitedPositions().length;
+    const scannedCount = sub.getScannedData().length;
+    const mapPointsCount = sub.getMapPoints().size;
+
+    console.log(`   Visited Positions: ${visitedCount}`);
+    console.log(`   Scanned Data Points: ${scannedCount}`);
+    console.log(`   Map Dimensions: Width=${dimensions.width}, Height=${dimensions.height}`);
+    console.log(`   Mapped Points: ${mapPointsCount}\n`);
+
+    sub.printMap();
+    
+    return sub.getResult();
+  }, 'OOP Class (SubmarinePart3)');
+
 }
 
 if (require.main === module) {
